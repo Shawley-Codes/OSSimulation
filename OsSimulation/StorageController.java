@@ -1,11 +1,12 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class StorageController {
-    private List<Object> secondaryStorage = new ArrayList<>(1000);
+    private final List<Object> secondaryStorage;
 
-    public StorageController() {}
+    public StorageController() {
+         secondaryStorage = new ArrayList<>(1000);
+    }
 
     public void setSecondaryStorage(int index, Object obj) {
         secondaryStorage.set(index, obj);

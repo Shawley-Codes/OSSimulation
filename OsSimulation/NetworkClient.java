@@ -25,12 +25,9 @@ public class NetworkClient {
                 // sends output to the socket
                 out = new DataOutputStream(
                         socket.getOutputStream());
-            } catch (UnknownHostException u) {
+            } catch (IOException u) {
 
                 System.out.println(u);
-            } catch (IOException i) {
-
-                System.out.println(i);
             }
 
             // string to read message from input
@@ -55,6 +52,7 @@ public class NetworkClient {
 
                 input.close();
 
+                out.flush();
                 out.close();
 
                 socket.close();
