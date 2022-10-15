@@ -12,4 +12,9 @@ public class Memory {
     public Process removeProcess() {
         return memory.remove();
     }
+    
+    public static boolean queueEmpty() {
+         return memory.isEmpty();
+    }
+    
 }

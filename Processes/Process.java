@@ -1,17 +1,19 @@
+import java.util.NoSuchElementException;
+
+
 public class Process implements Runnable {
     // Instance variables
     private int PID;
     private String state;
     private int programCounter = 0;
-    private int programLength = 5;
-    private int time;
-    private int sleepTime = 1000;
+    private int programLength = 12;
+    private int sleepTime = 1500;
     private boolean running = true;
-    Memory memory = new Memory(); 
-     
+    Memory memory = new Memory();
+    MidTermScheduler call = new MidTermScheduler();
     
-    // Constructor
-    Process() {}
+    //Constructors
+    Process () {}
     
     Process (int PID, String state) {
         this.PID = PID;
@@ -43,49 +45,43 @@ public class Process implements Runnable {
         return programCounter;
     }
     
-    // Set function for time
-    public void setTime(int time) {
-        this.time = time;
-    }
-    
-    // Get function for time
-    public int getTime() {
-        return time;
-    }
-    
     // Get function for program length
     public int getProgramLength() {
         return programLength;
     }
     
-    /*
-    // Set function for interrupt
-    public void setInterrupt(boolean value) {
-        this.interrupt = value;
+    public void stop() {
+        running = false; 
     }
-*/
     
     @Override
     public void run() {
         try {
             while(running) { 
-                Process executing = memory.removeProcess();
-                System.out.printf("Process %d executing%n", executing.getPID()); 
+                Process executing = memory.removeProcess(); 
                 executing.setState("Running"); 
-                System.out.printf("Process %d's state set to %s%n", executing.getPID(), executing.getState()); 
+                System.out.printf("Process %d's state set to %s%n", executing.getPID(), executing.getState());
+                System.out.printf("Process %d executing%n", executing.getPID());
                 for (int i = executing.getProgramCounter(); i < executing.getProgramLength() + 1; i++) {
+                    if (call.getInterrupt() == true) { 
+                        System.out.printf("Process Switching%n");
+                        executing.setState("Ready");
+                        System.out.printf("Process %d's state set to %s%n", executing.getPID(), executing.getState()); 
+                        memory.addProcess(executing); 
+                        call.setInterrupt(false);
+                        break;
+                    }
                     Thread.sleep(sleepTime);
                     System.out.printf("Processor executing line %d%n", executing.getProgramCounter());
                     executing.setProgramCounter(i+1);
-                }
-                System.out.printf("Process %d terminating%n", executing.getPID()); 
+                } 
             }
         }
         catch(InterruptedException ex) {
             Thread.currentThread().interrupt();
-        
-            
-        
+        }
+        catch(NoSuchElementException ex) {
+            stop();  
         }
     }
 }
