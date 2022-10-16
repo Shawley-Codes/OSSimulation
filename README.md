@@ -14,3 +14,5 @@ The simulation connects to the internet running two tests
 
 The simulation also provides basic file management, allowing the user to create files
 
+The simulation also demonstrates the storage controller. The storage has 1000 fixed blocks to store information to the secondary memory. The controller is able to save objects to memory, retrieved from memory and create new objects to individual memory blocks.
+
