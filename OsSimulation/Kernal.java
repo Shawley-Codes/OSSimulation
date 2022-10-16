@@ -1,14 +1,12 @@
 public class Kernal {
-    private static ProcessManager manager = new ProcessManager(); 
-    private static InterProcessCommunication shared = new InterProcessCommunication();
 
     //the main method to run the kernel simulation
     public static void main(String[] args) {
-
         try {
-            manager.main();
+            ProcessManager.main();
             Thread.sleep(41000);
-            shared.main();
+            InterProcessCommunication.main();
+            Thread.sleep(15000);
         }
         catch(InterruptedException ex) {
             Thread.currentThread().interrupt();

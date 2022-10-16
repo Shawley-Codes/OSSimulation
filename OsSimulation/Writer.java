@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Writer implements Runnable {
     // Instance variables
-    private int numberPacket;
+    private static int numberPacket;
     private int sleepTime = 3000; 
     private int printTime = 1000; 
     private SharedMemory memory = new SharedMemory(); 
@@ -24,9 +24,7 @@ public class Writer implements Runnable {
                     // Lock the mutex
                     memory.lockMutex();
                     // Ask for user input
-                    System.out.printf("Enter an order number(integer): ");
-                    // Set number packet to user input
-                    numberPacket = input.nextInt(); 
+                    System.out.printf("Order number(integer): %d\n", numberPacket++);
                     // Add integer to queue
                     memory.addPacket(numberPacket);
                     // Unlock the mutex

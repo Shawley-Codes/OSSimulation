@@ -1,5 +1,6 @@
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class ProcessManager {
@@ -17,8 +18,14 @@ public class ProcessManager {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         executorService.execute(P1); 
-        executorService.execute(schedule); 
+        executorService.execute(schedule);
+
 
         executorService.shutdown();
+        try {
+            executorService.awaitTermination(1, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class InterProcessCommunication {
@@ -17,7 +18,12 @@ public class InterProcessCommunication {
         // Run the processes
         executorService.execute(process2); 
         executorService.execute(process1);
-        
+        try {
+            executorService.awaitTermination(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         executorService.shutdown();
+
     }
 }
