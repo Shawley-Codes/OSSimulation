@@ -3,7 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-out/
+out/production/OSSimulation
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
