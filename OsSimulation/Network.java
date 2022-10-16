@@ -2,66 +2,65 @@ import java.net.ServerSocket;
 import java.io.*;
 import java.net.*;
 
-//code example for network server taken from geeks for geeks
-
 public class Network {
     //simulate obtaining IP
     //sending out package
+    //receiving package
 
-    // initialize socket and input stream
-    Socket socket = null;
-    ServerSocket server = null;
-    DataInputStream in = null;
-
-    // constructor with port
-    public Network(int port)
+    // constructor with port and hostname to fill a socket and a domainname for a whois client
+    public Network(String hostname, int port, String domainName)
     {
+        // attempts to connect to a server
+        try (Socket socket = new Socket(hostname, port)) {
+            System.out.println("\nSocketing Successful\n");
 
-        // starts server and waits for a connection
-        try {
-            server = new ServerSocket(port);
+            OutputStream out = socket.getOutputStream();
+            PrintWriter writer = new PrintWriter(out, true);
+            writer.println(domainName);
 
-            System.out.println("Server started");
-            System.out.println("Waiting for a client ...");
+            InputStream in = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-            socket = server.accept();
-
-            System.out.println("Client accepted");
-
-            // takes input from the client socket
-            in = new DataInputStream(
-                    new BufferedInputStream(
-                            socket.getInputStream()));
-
-            String line = "";
-
-            // reads message from client until "End" is sent
-            while (!line.equals("End")) {
-
-                try {
-
-                    line = in.readUTF();
-
-                    System.out.println(line);
-                }
-
-                catch (IOException i) {
-
-                    System.out.println(i);
-                }
+            String data;
+            while ((data = reader.readLine()) != null) {
+                System.out.println(data);
             }
-
-            System.out.println("Closing connection");
-
-            // close connection
-            socket.close();
-
-            in.close();
         }
 
-        catch (IOException i) {
+        //fails to connect to a server prints exception error
+        catch (IOException e) {
+            System.err.println(e);
+        }
+    }
 
-            System.out.println(i);
+    //not completely working
+    //this method will connect and create a http client
+    public Network(String hostname, int port)
+    {
+        // attempts to connect to a server
+        try (Socket socket = new Socket(hostname, port)) {
+            System.out.println("\nSocketing Successful\n");
+
+            //create our input output vars
+            OutputStream out = socket.getOutputStream();
+            PrintWriter writer = new PrintWriter(out, true);
+            InputStream in = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+            writer.println( "GET " + hostname + " HTTP/1.0" );
+            writer.println();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+        }
+
+        //fails to connect to a server prints exceotion error
+        catch (IOException e) {
+
+            System.err.println(e);
         }
     }
 }
