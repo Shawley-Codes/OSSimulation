@@ -9,13 +9,13 @@ public class Process implements Runnable {
     private int programLength = 12;
     private int sleepTime = 1500;
     private boolean running = true;
-    Memory memory = new Memory();
-    MidTermScheduler call = new MidTermScheduler();
+    private Memory memory = new Memory();
+    private MidTermScheduler call = new MidTermScheduler();
     
     //Constructors
-    Process () {}
+    public Process () {}
     
-    Process (int PID, String state) {
+    public Process (int PID, String state) {
         this.PID = PID;
         this.state = state;
     }

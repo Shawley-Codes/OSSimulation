@@ -5,11 +5,11 @@ public class Scheduler implements Runnable {
     private int sleepTime = 8000;
     private boolean running = true;
     private boolean ans = false;
-    MidTermScheduler call = new MidTermScheduler();
-    Memory memory = new Memory(); 
+    private MidTermScheduler call = new MidTermScheduler();
+    private Memory memory = new Memory();
     
     // Constructor
-    Scheduler() {}
+    public Scheduler() {}
     
     // Function to stop running thread
     public void stop() {

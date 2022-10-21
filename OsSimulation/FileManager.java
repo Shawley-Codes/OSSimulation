@@ -7,15 +7,15 @@ import java.util.List;
 
 public class FileManager {
         //simulate methods for creating, storing and opening files
-    RandomAccessFile file;
-    FileData data;
-    List<FileData> files = new ArrayList<FileData>();
-    int Index = files.size();
+    private RandomAccessFile file;
+    private FileData data;
+    private List<FileData> files = new ArrayList<FileData>();
+    private int Index = files.size();
 
-    FileManager() {
+    public FileManager() {
         System.out.println("\nCreated File Manager\n");
     }
-    void create(String filename, String fileurl){
+    public void create(String filename, String fileurl){
         File obj = new File("myfile.txt");
         try {
             if (obj.createNewFile()) {
